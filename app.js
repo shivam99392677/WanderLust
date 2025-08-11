@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const Listing = require("./models/listing.js");
 
 const app = express();
 
@@ -13,12 +14,32 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
 
-// index route 
-app.listen(3000,(req,res)=>{
-    console.log("listening to port 3000");
-})
+// index route
+app.listen(3000, (req, res) => {
+  console.log("listening to port 3000");
+});
 
-// root route 
-app.get("/",(req,res)=>{
-    res.send("Hi I am working");
-})
+// root route
+app.get("/", (req, res) => {
+  res.send("Hi I am working");
+});
+
+// // test route
+// app.get("/test", async (req, res) => {
+//   let sample = new Listing({
+//     title: "My new villa",
+//     description: "hi paisa hai na warna room nii milega",
+//     price: 6000,
+//     loacation: "Siwan",
+//     country: "India",
+//   });
+
+//   await sample
+//     .save()
+//     .then((res) => console.log(res))
+//     .catch((err) => {
+//       console.log(err);
+//     });
+
+//   res.send("working test model");
+// });

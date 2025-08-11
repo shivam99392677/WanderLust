@@ -5,15 +5,21 @@ const listingSchema = new Schema({
   title: String,
   description: String,
   image: {
-    type: String,
-    default:
-      "https://pixabay.com/photos/ka%C3%A7kar-mountains-wilderness-summit-9655200/",
-    set: (v) => (v === "" ? "default link" : v),
+    url: {
+      type: String,
+      default:
+        "https://pixabay.com/photos/ka%C3%A7kar-mountains-wilderness-summit-9655200/",
+    },
+    filename: {
+      type: String,
+      default: "listingimage",
+    },
   },
-  price:Number,
-  location:String,
-  country:String,
+
+  price: Number,
+  location: String,
+  country: String,
 });
 
-const Listing = mongoose.model("Listing",listingSchema);
+const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;

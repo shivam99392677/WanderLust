@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit the list</title>
+  </head>
+  <body>
+    <h2>Edit the list</h2>
+    <form method="post" action="/listings/<%= list._id %>?_method=PUT">
+      <input value="<%= list.title%>" name="title" type="text" /> <br /><br />
+      <textarea
+       
+        name="description"
+        type="text"
+      ><%= list.title%></textarea
+      ><br /><br />
+      <input value="<%= list.price%>" name="price" type="text" /><br /><br />
+      <input
+        value="<%= list.country%>"
+        name="country"
+        type="text"
+      /><br /><br />
+      <input
+       value="<%= list.location%>"
+        name="location"
+        type="text"
+      /><br /><br />
+      <button>Save</button>
+    </form>
+  </body>
+</html>

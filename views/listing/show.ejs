@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WanderLust</title>
+  </head>
+  <body>
+    <h2><%= list.title %></h2>
+    <ul>
+      <li>Title:<%= list.title %></li>
+      <li>Description:<%= list.description %></li>
+      <li>Price: ₹<%= list.price.toLocaleString('en-IN') %></li>
+      <li>Country:<%= list.country %></li>
+      <li>Location:<%= list.location %></li>
+    </ul>
+
+    <br><br>
+    <a href="/listings/<%= list._id %>/edit">Edit this list</a>
+    <br><br>
+    <form method="post" action="/listings/<%= list._id %>?_method=DELETE">
+        <button>Delete the listing</button>
+    </form>
+  </body>
+</html>

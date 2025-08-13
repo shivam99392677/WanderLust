@@ -1,19 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
+const methodOverride = require("method-override");
+const path = require("path");
+const ejsMate = require("ejs-mate");
+
 const app = express();
 
-const methodOverride = require("method-override");
-
+app.use(express.static(path.join(__dirname,"/public")));
+app.engine("ejs",ejsMate);
 app.use(methodOverride("_method"));
-
-const path = require("path");
-
 app.use(express.urlencoded({extended:true}));
-
-
 app.set("view engine", "ejs");
-
 app.set("views", path.join(__dirname, "/views"));
 
 main()
@@ -32,9 +30,9 @@ app.listen(3000, (req, res) => {
 });
 
 // root route
-app.get("/", (req, res) => {
-  res.send("Hi I am working");
-});
+app.get("/", async (req, res) => {
+const allData = await Listing.find({});
+  res.render("./listing/index.ejs", { allData });});
 
 // listings route
 app.get("/listings", async (req, res) => {

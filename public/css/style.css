@@ -42,3 +42,12 @@ footer{
     align-items:center;
     
 }
+
+
+/* cards */
+.card{
+    border: none !important;
+}
+.card-img-top{
+    width: 100% !important;
+}

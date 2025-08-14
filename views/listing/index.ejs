@@ -1,29 +1,35 @@
 <% layout("layouts/boilerplate") %>
 
 <body>
-  <h2>All listing</h2>
-  <!-- <form method="get" action="/listings/new">
-        <button>Add new Hotel</button>
-    </form> -->
-  <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-xs-2 row-cols-1">
-    <%for(let list of allData){%>
+  <h2>All Listings</h2>
 
-    <div class="card col" style="width: 20rem">
-      <img
-        src="<%= list.image.url %>"
-        class="card-img-top"
-        alt="listing_image"
-        style="height: 20rem"
-      />
-      <div class="card-body">
-        <p class="card-text">
-          <%= list.title %><br />
-Price: ₹<%= list.price ? list.price.toLocaleString('en-IN') : 'Not Available' %>
-        </p>
-      </div>
+  <!-- 
+  <form method="get" action="/listings/new">
+    <button>Add new Hotel</button>
+  </form> 
+  -->
+
+  <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
+    <% for (let list of allData) { %>
+    <div class="col">
+      <a href="/listings/<%= list._id %>" class="listing-link"  >
+        <div class="card h-100">
+          <div class="card-img-overlay"></div>
+          <img
+            src="<%= list.image.url %>"
+            class="card-img-top"
+            alt="listing_image"
+            style="height: 20rem; object-fit: cover"
+          />
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= list.title %></b><br />
+              Price: ₹<%= list.price ? list.price.toLocaleString('en-IN') : 'Not Available' %>/night
+            </p>
+          </div>
+        </div>
+      </a>
     </div>
     <% } %>
   </div>
-
- 
 </body>

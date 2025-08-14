@@ -81,3 +81,13 @@ footer{
     opacity: 0.2;
     background-color: white;
 }
+
+/* show */
+
+.show-img{
+    height: 30vh;
+    object-fit: cover;
+}
+.card{
+    padding: 0;
+}

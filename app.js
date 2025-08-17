@@ -4,13 +4,14 @@ const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const path = require("path");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname,"/public")));
-app.engine("ejs",ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
+app.engine("ejs", ejsMate);
 app.use(methodOverride("_method"));
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
@@ -24,15 +25,11 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
 
-// index route
-app.listen(3000, (req, res) => {
-  console.log("listening to port 3000");
-});
-
 // root route
 app.get("/", async (req, res) => {
-const allData = await Listing.find({});
-  res.render("./listing/index.ejs", { allData });});
+  const allData = await Listing.find({});
+  res.render("./listing/index.ejs", { allData });
+});
 
 // listings route
 app.get("/listings", async (req, res) => {
@@ -53,33 +50,46 @@ app.get("/listings/:id", async (req, res) => {
 });
 
 // new post route to add new listing
-app.post("/listings/new", (req, res) => {
-  let newList = new Listing(req.body);
-  newList.save();
-  res.redirect("/listings");
+app.post(
+  "/listings/new",
+  wrapAsync(async (req, res, next) => {
+    let newList = new Listing(req.body);
+    await newList.save();
+    res.redirect("/listings");
+  })
+);
+
+//edit route
+app.get("/listings/:id/edit", async (req, res) => {
+  let { id } = req.params;
+  let list = await Listing.findById(id);
+  res.render("./listing/edit.ejs", { list });
 });
 
-//edit route 
-app.get("/listings/:id/edit",async (req,res)=>{
-  let {id }= req.params;
-  let list =await Listing.findById(id);
-  res.render("./listing/edit.ejs",{list});
-})
-
-// update route 
-app.put("/listings/:id",async (req,res)=>{
-  let {id} =req.params;
-  await Listing.findByIdAndUpdate(id,{...req.body});
+// update route
+app.put("/listings/:id", async (req, res) => {
+  let { id } = req.params;
+  await Listing.findByIdAndUpdate(id, { ...req.body });
   res.redirect(`/listings/${id}`);
-})
+});
 
-// delete route 
-app.delete("/listings/:id",async (req,res)=>{
-  let {id} =req.params;
+// delete route
+app.delete("/listings/:id", async (req, res) => {
+  let { id } = req.params;
   let deletedList = await Listing.findByIdAndDelete(id);
   console.log(deletedList);
   res.redirect("/listings");
-})
+});
+
+// error handler
+app.use((err, req, res, next) => {
+  res.send(err.name + "\nSomething went wrong");
+});
+
+// index route
+app.listen(3000, (req, res) => {
+  console.log("listening to port 3000");
+});
 
 // // test route
 // app.get("/test", async (req, res) => {

@@ -2,7 +2,7 @@
 
 <div class="row ">
   <div class="col-md-8 offset-md-2">
-    <form method="post" action="/listings/<%= list._id %>?_method=PUT">
+    <form method="post" action="/listings/<%= list._id %>?_method=PUT" class="needs-validation" novalidate>
       <div class="mb-3 ">
         <label for="title" class="form-label">Title</label>
         <input
@@ -11,7 +11,14 @@
           type="text"
           id="title"
           class="form-control"
+          required
         />
+        <div class="valid-feedback">
+          Looks Good!
+        </div>
+        <div class="invalid-feedback">
+          Enter a catchy title
+        </div>
       </div>
 
       <div class="mb-3">
@@ -21,9 +28,13 @@
           id="description"
           class="form-control"
           type="text"
+          required
         >
 <%= list.title%></textarea
         >
+        <div class="invalid-feedback">
+          Give a short description
+        </div>
       </div>
 
       <div class="mb-3">
@@ -40,7 +51,11 @@
             type="text"
             id="price"
             class="form-control"
+            required
           />
+          <div class="invalid-feedback">
+          Enter a fare Price
+        </div>
         </div>
 
         <div class="mb-3 col-sm-8">
@@ -51,7 +66,11 @@
             type="text"
             id="country"
             class="form-control"
+            required
           />
+        </div>
+        <div class="invalid-feedback">
+        Enter country name
         </div>
       </div>
 
@@ -63,7 +82,11 @@
           type="text"
           id="location"
           class="form-control"
+          required
         />
+        <div class="invalid-feedback">
+          Enter your location
+        </div>
       </div>
 
       <div class="row">
@@ -74,3 +97,5 @@
     </form>
   </div>
 </div>
+<script src="/js/script.js"></script>
+

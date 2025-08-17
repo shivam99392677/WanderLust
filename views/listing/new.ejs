@@ -2,7 +2,12 @@
 
 <div class="row">
   <div class="col-md-8 offset-md-2">
-    <form method="post" action="/listings/new" class="container">
+    <form
+      method="post"
+      action="/listings/new"
+      class="container needs-validation"
+      novalidate
+    >
       <h3 class="mb-4">Add New Listing</h3>
 
       <!-- title -->
@@ -14,9 +19,15 @@
           name="title"
           type="text"
           id="title"
+          required
         />
+        <div class="valid-feedback">Looks Good</div>
+        <div class="invalid-feedback">
+          Enter a catchy title
+        </div>
       </div>
 
+      <!-- description -->
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea
@@ -25,9 +36,12 @@
           name="description"
           type="text"
           id="description"
+          required
         ></textarea>
+        <div class="invalid-feedback">Give a short description</div>
       </div>
 
+      <!-- image -->
       <div class="mb-3">
         <label for="image" class="form-label">Image URL</label>
         <input
@@ -40,17 +54,19 @@
       </div>
 
       <div class="row">
+        <!-- price -->
         <div class="mb-3 col-sm-4">
           <label for="price" class="form-label">Price</label>
           <input
             placeholder="1200"
             name="price"
-            type="number"
             class="form-control"
             id="price"
+            required
           />
+          <div class="invalid-feedback">Enter a fare Price</div>
         </div>
-
+        <!-- country -->
         <div class="mb-3 col-sm-8">
           <label for="country" class="form-label">Country</label>
           <input
@@ -59,10 +75,15 @@
             type="text"
             class="form-control"
             id="country"
+            required
           />
+          <div class="invalid-feedback">
+            Enter the country name
+          </div>
         </div>
       </div>
 
+      <!-- location -->
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input
@@ -71,7 +92,11 @@
           type="text"
           class="form-control"
           id="location"
+          required
         />
+        <div class="invalid-feedback">
+          Enter a valid location
+        </div>
       </div>
 
       <div class="mb-3">
@@ -81,3 +106,4 @@
     </form>
   </div>
 </div>
+<script src="/js/script.js"></script>

@@ -1,10 +1,10 @@
-<% layout("layouts/boilerplate") %>
+<%- layout("layouts/boilerplate") %>
 
 <div class="row">
   <div class="col-md-8 offset-md-2">
     <form
       method="post"
-      action="/listings/new"
+      action="/listings"
       class="container needs-validation"
       novalidate
     >
@@ -60,7 +60,6 @@
           <input
             placeholder="1200"
             name="price"
-            type="number"
             class="form-control"
             id="price"
             required

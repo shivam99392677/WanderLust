@@ -1,4 +1,4 @@
-<% layout("layouts/boilerplate") %>
+<%- layout("layouts/boilerplate") %>
 
 <body>
   <h2>All Listings</h2>
@@ -12,19 +12,21 @@
   <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
     <% for (let list of allData) { %>
     <div class="col">
-      <a href="/listings/<%= list._id %>" class="listing-link"  >
+<a href="/listings/<%= list?._id %>" class="listing-link">
         <div class="card h-100">
           <div class="card-img-overlay"></div>
           <img
-            src="<%= list.image.url %>"
+            src="<%= list.image?.url || 'https://via.placeholder.com/400x300?text=No+Image' %>"
             class="card-img-top"
             alt="listing_image"
             style="height: 20rem; object-fit: cover"
           />
+
           <div class="card-body">
             <p class="card-text">
               <b><%= list.title %></b><br />
               Price: ₹<%= list.price ? list.price.toLocaleString('en-IN') : 'Not Available' %>/night
+              
             </p>
           </div>
         </div>

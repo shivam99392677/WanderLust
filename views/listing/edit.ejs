@@ -1,4 +1,4 @@
-<% layout("layouts/boilerplate") %>
+<%- layout("layouts/boilerplate") %>
 
 <div class="row ">
   <div class="col-md-8 offset-md-2">
@@ -30,7 +30,7 @@
           type="text"
           required
         >
-<%= list.title%></textarea
+<%= list.description%></textarea
         >
         <div class="invalid-feedback">
           Give a short description
@@ -39,7 +39,7 @@
 
       <div class="mb-3">
         <label for="image" class="form-label">Image URL</label>
-        <input type="text" value="<%= list.image.url %>" name="image[url]" id="image" class="form-control">
+<input type="text" value="<%= list.image?.url || "" %>" name="image[url]" id="image" class="form-control">
       </div>
 
       <div class="row">

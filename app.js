@@ -104,14 +104,14 @@ app.delete(
 );
 
 // for wrong route error
-app.all("*", (req, res, next) => {
+app.all(/.*/, (req, res, next) => {
   next(new ExpressError(404, "Page not found"));
 });
 
 // error handler
 app.use((err, req, res, next) => {
-  let { statusCode, message } = err;
-  res.status(statusCode).send(message);
+  let { statusCode=500, message="Something went wrong" } = err;
+  res.status(statusCode).render("listing/error.ejs",{message});
 });
 
 // index route

@@ -1,4 +1,4 @@
-<% layout("/layouts/boilerplate.ejs") %>
+<%- layout("/layouts/boilerplate.ejs") %>
 
 <div class="row">
   <div class="col-md-8 offset-md-2">
@@ -17,7 +17,7 @@
           <p class="card-text">
             <%= list.description %> <br />
             <hr />
-            <b>₹<%= list.price.toLocaleString('en-IN') %>/night</b><br />
+            <b>₹<%= list.price ? list.price.toLocaleString('en-IN') : "Not Available" %>/night/night</b><br />
             <%= list.country %> <br />
             <%= list.location %>
           </p>

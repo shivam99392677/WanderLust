@@ -6,6 +6,9 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const { listingSchema } = require("./schema.js");
+const { notEqual } = require("assert");
+const { valid } = require("joi");
 
 const app = express();
 
@@ -25,6 +28,19 @@ main()
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
+
+// validation middleware for listing
+const validateError = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+
+  if (error) {
+
+    let errMsg = error.details.map((el)=>el.message).join(",");
+    throw new ExpressError(404, errMsg);
+  } else {
+    next();
+  }
+};
 
 // root route
 app.get(
@@ -59,11 +75,13 @@ app.get(
   })
 );
 
-// new post route to add new listing
+// create route
 app.post(
   "/listings",
+  validateError,
   wrapAsync(async (req, res, next) => {
     let newList = new Listing(req.body);
+
     await newList.save();
     res.redirect("/listings");
   })
@@ -72,7 +90,7 @@ app.post(
 //edit route
 app.get(
   "/listings/:id/edit",
-  wrapAsync(async (req, res,next) => {
+  wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     let list = await Listing.findById(id);
     res.render("listing/edit.ejs", { list });
@@ -82,11 +100,10 @@ app.get(
 // update route
 app.put(
   "/listings/:id",
+  validateError,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    if (!req.body) {
-      throw new ExpressError(400, "incomplete data");
-    }
+
     await Listing.findByIdAndUpdate(id, { ...req.body });
     res.redirect(`/listings/${id}`);
   })
@@ -110,8 +127,8 @@ app.all(/.*/, (req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  let { statusCode=500, message="Something went wrong" } = err;
-  res.status(statusCode).render("listing/error.ejs",{message});
+  let { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render("listing/error.ejs", { message });
 });
 
 // index route

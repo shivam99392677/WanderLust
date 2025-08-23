@@ -6,9 +6,7 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
-const { notEqual } = require("assert");
-const { valid } = require("joi");
+const validateError = require("./utils/schemaValidator.js");
 
 const app = express();
 
@@ -28,19 +26,6 @@ main()
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderLust");
 }
-
-// validation middleware for listing
-const validateError = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-
-  if (error) {
-
-    let errMsg = error.details.map((el)=>el.message).join(",");
-    throw new ExpressError(404, errMsg);
-  } else {
-    next();
-  }
-};
 
 // root route
 app.get(

@@ -1,12 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
+const Review = require("./models/reviews.js");
 const methodOverride = require("method-override");
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const validateError = require("./utils/schemaValidator.js");
+const reviewValidator = require("./utils/reviewValidator.js");
 
 const app = express();
 
@@ -104,6 +106,21 @@ app.delete(
     res.redirect("/listings");
   })
 );
+
+// reviews route
+app.post("/listings/:id/reviews", reviewValidator, async (req, res, next) => {
+  let listing = await Listing.findById(req.params.id);
+
+  let newReview = new Review(req.body.review);
+
+  listing.review.push(newReview);
+
+  let result =await newReview.save();
+  await listing.save();
+
+  console.log(result);
+  res.redirect(`/listings/${listing._id}`);
+});
 
 // for wrong route error
 app.all(/.*/, (req, res, next) => {

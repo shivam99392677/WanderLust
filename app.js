@@ -107,7 +107,7 @@ app.delete(
   })
 );
 
-// reviews route
+// reviews create route 
 app.post("/listings/:id/reviews", reviewValidator, async (req, res, next) => {
   let listing = await Listing.findById(req.params.id);
 

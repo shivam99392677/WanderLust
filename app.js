@@ -107,20 +107,23 @@ app.delete(
   })
 );
 
-// reviews create route 
-app.post("/listings/:id/reviews", reviewValidator, async (req, res, next) => {
-  let listing = await Listing.findById(req.params.id);
+// reviews create route
+app.post(
+  "/listings/:id/reviews",
+  reviewValidator,
+  wrapAsync(async (req, res, next) => {
+    let listing = await Listing.findById(req.params.id);
 
-  let newReview = new Review(req.body.review);
+    let newReview = new Review(req.body.review);
 
-  listing.review.push(newReview);
+    listing.review.push(newReview);
 
-  let result =await newReview.save();
-  await listing.save();
+    let result = await newReview.save();
+    await listing.save();
 
-  console.log(result);
-  res.redirect(`/listings/${listing._id}`);
-});
+    res.redirect(`/listings/${listing._id}`);
+  })
+);
 
 // for wrong route error
 app.all(/.*/, (req, res, next) => {

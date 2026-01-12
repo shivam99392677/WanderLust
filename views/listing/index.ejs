@@ -13,7 +13,7 @@
     <% for (let list of allData) { %>
     <div class="col">
 <a href="/listings/<%= list?._id %>" class="listing-link">
-        <div class="card h-100">
+        <div class="card listing-card h-100">
           <div class="card-img-overlay"></div>
           <img
             src="<%= list.image?.url || 'https://via.placeholder.com/400x300?text=No+Image' %>"

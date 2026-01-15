@@ -1,10 +1,13 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({mergeParams:true});
 const Listing = require("../models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("../utils/wrapAsync.js");
 const validateError = require("../utils/schemaValidator.js");
+
+
+
 // listings route
 router.get(
   "/",
@@ -24,7 +27,7 @@ router.get(
   "/:id",
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let list = await Listing.findById(id).populate("review");
+    let list = await Listing.findById(id).populate("reviews");
     res.render("listing/show.ejs", { list });
   })
 );

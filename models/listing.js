@@ -20,20 +20,27 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
-  review: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
+  reviews: [
+  {
+    type: Schema.Types.ObjectId,
+    ref: "Review",
+    default: [],
+  },
+],
+
 });
 
 // middleware for deleting listing and taking care of reviews
 // middleware for deleting listing and taking care of reviews
 listingSchema.post("findOneAndDelete", async (listing) => {
-  if (listing && listing.reviews.length) {
+  if (!listing) return;
+
+  // handle both old + new data safely
+  const reviews = listing.reviews || listing.review || [];
+
+  if (reviews.length > 0) {
     await Review.deleteMany({
-      _id: { $in: listing.reviews },
+      _id: { $in: reviews },
     });
   }
 });
